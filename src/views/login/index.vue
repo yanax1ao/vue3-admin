@@ -35,6 +35,7 @@ const password = ref('')
 
 const handleLogin = async () => {
   await login(username.value, password.value)
+  router.push('/home')
 }
 const handleLogout = () => {
   logout()

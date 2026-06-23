@@ -14,6 +14,10 @@ export const setUserInfo = (userInfo: string) => {
   localStorage.setItem('userInfo', userInfo)
 }
 
+export const setMenus = (menus: string) => {
+  localStorage.setItem('menus', menus)
+}
+
 export const removeToken = () => {
   localStorage.removeItem('token')
 }
@@ -26,6 +30,9 @@ export const getRoles = () =>
 export const getUserInfo = () =>
   localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo') || '') : {}
 
+export const getMenus = () =>
+  localStorage.getItem('menus') ? JSON.parse(localStorage.getItem('menus') || '') : []
+
 export const removePermissions = () => {
   localStorage.removeItem('permission')
 }
@@ -34,4 +41,8 @@ export const removeRoles = () => {
 }
 export const removeUserInfo = () => {
   localStorage.removeItem('userInfo')
+}
+
+export const removeMenus = () => {
+  localStorage.removeItem('menus')
 }

@@ -12,7 +12,10 @@
 
 <script setup>
 import router from '@/router'
-const permission = localStorage.getItem('permission')
+import { userUserStore } from '@/stores/user'
+const userStore = userUserStore()
+const permission = userStore.permissions
+
 const menu = [
   {
     name: '用户管理',
