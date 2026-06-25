@@ -1,24 +1,28 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { getMenus, getPermissions } from '@/utils/auth'
-import { filterRoutes as filterRequestRoutes, generateRoutes, addAccessRouter } from '@/utils/route'
 import { userUserStore } from '@/stores/user'
+import type { RouteRecordRaw } from 'vue-router'
+import NotFound from '@/views/error/404.vue'
 
-const permission = localStorage.getItem('permission')
-let routes = [
+let routes: RouteRecordRaw[] = [
   {
     path: '/',
-    redirect: '/home',
+    redirect: '/login',
   },
   {
     path: '/home',
     name: 'Home',
-    component: () => import('@/views/dashboard/index.vue'),
+    component: () => import('@/views/layout/index.vue'),
   },
   {
     path: '/login',
     name: 'Login',
     component: () => import('@/views/login/index.vue'),
   },
+  {
+    path: '/404',
+    component: NotFound,
+  },
+
   {
     path: '/:pathMatch(.*)*',
     redirect: '/404',
@@ -30,15 +34,16 @@ const router = createRouter({
   routes: routes,
 })
 
-router.beforeEach(async (to, from) => {
+router.beforeEach(async (to) => {
   const userStore = userUserStore()
+  if (to.path === '/login') {
+    return true
+  }
   if (!userStore.token) {
-    if (to.path === '/home') {
-      return true
-    }
+    return { path: '/login' }
   }
   if (!userStore.hasRoutes) {
-    await userStore.login()
+    await userStore.loadUserInfo()
     return {
       ...to,
       replace: true,

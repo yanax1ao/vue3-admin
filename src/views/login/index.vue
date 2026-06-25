@@ -28,13 +28,14 @@ const router = useRouter()
 // state/getters 必须用 storeToRefs
 const { userInfo, token } = storeToRefs(userStore)
 // actions 可直接解构
-const { login, logout } = userStore
+const { login, logout, loadUserInfo } = userStore
 
 const username = ref('')
 const password = ref('')
 
 const handleLogin = async () => {
   await login(username.value, password.value)
+  await loadUserInfo()
   router.push('/home')
 }
 const handleLogout = () => {

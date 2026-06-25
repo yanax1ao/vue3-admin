@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { login } from '@/api/auth'
+import { login, loadUserInfo } from '@/api/auth'
 import type { UserStatus } from '@/types/user'
 import {
   getToken,
@@ -37,24 +37,26 @@ export const userUserStore = defineStore('user', {
     userInfo: getUserInfo() || { name: '' },
     token: getToken() || '',
     menus: getMenus() || [],
-    hasRoutes: false,
+    hasRoutes: getMenus().length > 0 || false,
   }),
   actions: {
     async login(account?: string, pwd?: string) {
       const res = await login()
-
       this.token = res.token
+      setToken(res.token)
+    },
+    async loadUserInfo() {
+      const res = await loadUserInfo()
       this.permissions = res.permissions
       this.roles = res.roles
       this.userInfo = res.userInfo
       this.menus = res.menus
-      setToken(res.token)
       setMenus(JSON.stringify(res.menus))
       setUserInfo(JSON.stringify(res.userInfo))
       setPermissions(JSON.stringify(res.permissions))
       setRoles(JSON.stringify(res.roles))
-      const routes = filterRoutes(res.menus, res.permissions)
-      const accessRoutes = generateRoutes(routes)
+      const accessMenus = filterRoutes(res.menus, res.permissions)
+      const accessRoutes = generateRoutes(accessMenus)
       accessRoutes.forEach((route) => router.addRoute(route))
       this.hasRoutes = true
     },
@@ -65,6 +67,7 @@ export const userUserStore = defineStore('user', {
       removeUserInfo()
       removePermissions()
       removeMenus()
+      this.hasRoutes = false
     },
   },
 })
