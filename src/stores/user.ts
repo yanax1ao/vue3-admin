@@ -56,6 +56,8 @@ export const userUserStore = defineStore('user', {
       setPermissions(JSON.stringify(res.permissions))
       setRoles(JSON.stringify(res.roles))
       const accessMenus = filterMenus(res.menus, res.permissions)
+      console.log('menus', accessMenus)
+
       const accessRoutes = generateRoutes(accessMenus)
       accessRoutes.forEach((route) => router.addRoute(route))
       this.hasRoutes = true

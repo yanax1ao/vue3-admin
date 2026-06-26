@@ -5,86 +5,25 @@ import Layout from '@/views/layout/index.vue'
 
 const modules = import.meta.glob('../views/**/*.vue')
 
-export const filterMenus = (routes: Menu[], permission: string[]) => {
-  return routes.reduce<Menu[]>((acc, cur): Menu[] => {
-    let curObj = { ...cur }
-    if (!curObj.permission) {
-      if (!curObj.children?.length) {
-        acc.push(curObj)
-      } else {
-        curObj.children = filterMenus(curObj.children, permission)
-        acc.push(curObj)
-      }
-    } else {
-      permission.includes(curObj.permission) && acc.push(curObj)
+export const filterMenus = (menus: Menu[], permissions: string[]): Menu[] => {
+  return menus.reduce<Menu[]>((result, menu): Menu[] => {
+    const currentMenu = { ...menu }
+    if (currentMenu.children?.length) {
+      currentMenu.children = filterMenus(currentMenu.children, permissions)
     }
-    return acc
+    const hasCurrentPermission =
+      !currentMenu.permission || permissions.includes(currentMenu.permission)
+    const hasChildren = currentMenu.children?.length
+    if (hasCurrentPermission || hasChildren) {
+      result.push(currentMenu)
+    }
+    return result
   }, [])
 }
-
-// export const filterMenus = (menus: Menu[], permissions: string[]): Menu[] => {
-//   return menus.reduce<Menu[]>((result, menu) => {
-//     const currentMenu = { ...menu }
-//     // 先处理children
-//     if (currentMenu.children?.length) {
-//       currentMenu.children = filterMenus(currentMenu.children, permissions)
-//     }
-//     // 当前节点有权限
-//     const hasCurrentPermission =
-//       !currentMenu.permission || permissions.includes(currentMenu.permission)
-
-//     // 子节点还有内容
-//     const hasChildren = currentMenu.children?.length
-//     if (hasCurrentPermission || hasChildren) {
-//       result.push(currentMenu)
-//     }
-//     return result
-//   }, [])
-// }
-
-// export const generateRoutes = (routes: Menu[]) => {
-//   return routes.map((item) => {
-//     console.log('item', item)
-
-//     console.log('component', modules[`../views/${item.component}.vue`])
-//     const routesObj = {
-//       path: item.path,
-//       name: item.name,
-//       component: modules[`../views/${item.component}.vue`] as any,
-//       meta: {
-//         permission: item.permission,
-//       },
-//     }
-//     return routesObj
-//   })
-// }
 
 export const addAccessRouter = (routes: []) => {
   routes.forEach((route) => router.addRoute(route))
 }
-
-const menus: Menu[] = [
-  {
-    id: 1,
-    name: '系统管理',
-    path: '/system',
-    component: 'Layout',
-    children: [
-      {
-        id: 2,
-        name: '用户管理',
-        path: 'user',
-        component: 'system/user/index',
-      },
-      {
-        id: 3,
-        name: '角色管理',
-        path: 'role',
-        component: 'system/role/index',
-      },
-    ],
-  },
-]
 
 export const generateRoutes = (menus: Menu[]) => {
   const routes: RouteRecordRaw[] = []
@@ -114,6 +53,3 @@ export const generateRoutes = (menus: Menu[]) => {
   })
   return routes
 }
-
-const routes = generateRoutes(menus)
-routes.forEach((item) => router.addRoute(item))
