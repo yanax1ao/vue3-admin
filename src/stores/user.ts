@@ -18,7 +18,7 @@ import {
   removePermissions,
   removeMenus,
 } from '@/utils/auth'
-import { filterRoutes, generateRoutes } from '@/utils/route'
+import { filterMenus, generateRoutes } from '@/utils/route'
 import router from '@/router'
 
 const initState: UserStatus = {
@@ -55,7 +55,7 @@ export const userUserStore = defineStore('user', {
       setUserInfo(JSON.stringify(res.userInfo))
       setPermissions(JSON.stringify(res.permissions))
       setRoles(JSON.stringify(res.roles))
-      const accessMenus = filterRoutes(res.menus, res.permissions)
+      const accessMenus = filterMenus(res.menus, res.permissions)
       const accessRoutes = generateRoutes(accessMenus)
       accessRoutes.forEach((route) => router.addRoute(route))
       this.hasRoutes = true

@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper">
     <div class="left">
-      <SidebarMenu :menus="menus" />
+      <SidebarMenu :menus="accessMenus" />
     </div>
     <div class="right">
       <div v-if="routes.path === '/home'">你好，欢迎来到后台管理系统</div>
@@ -16,11 +16,12 @@ import { userUserStore } from '@/stores/user.ts'
 import { useRoute } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import AppMain from './components/AppMain.vue'
+import { filterMenus } from '@/utils/route'
 
 const routes = useRoute()
-const userStore = userUserStore()
 
-const { menus } = storeToRefs(userStore)
+const { menus, permissions } = userUserStore()
+const accessMenus = filterMenus(menus, permissions)
 </script>
 
 <style scoped>

@@ -1,6 +1,6 @@
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
-import { filterRoutes, generateRoutes } from '@/utils/route'
+import { filterMenus, generateRoutes } from '@/utils/route'
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 
@@ -11,7 +11,7 @@ import App from './App.vue'
 import router from './router'
 
 if (menus.length) {
-  const accsessRoutes = filterRoutes(menus, permissions)
+  const accsessRoutes = filterMenus(menus, permissions)
   const routes = generateRoutes(accsessRoutes)
   routes.forEach((item) => router.addRoute(item))
 }

@@ -5,14 +5,42 @@ import Layout from '@/views/layout/index.vue'
 
 const modules = import.meta.glob('../views/**/*.vue')
 
-export const filterRoutes = (routes: Menu[], permission: string[]) => {
-  return routes.filter((item) => {
-    if (!item.permission) {
-      return true
+export const filterMenus = (routes: Menu[], permission: string[]) => {
+  return routes.reduce<Menu[]>((acc, cur): Menu[] => {
+    let curObj = { ...cur }
+    if (!curObj.permission) {
+      if (!curObj.children?.length) {
+        acc.push(curObj)
+      } else {
+        curObj.children = filterMenus(curObj.children, permission)
+        acc.push(curObj)
+      }
+    } else {
+      permission.includes(curObj.permission) && acc.push(curObj)
     }
-    return permission.includes(item.permission)
-  })
+    return acc
+  }, [])
 }
+
+// export const filterMenus = (menus: Menu[], permissions: string[]): Menu[] => {
+//   return menus.reduce<Menu[]>((result, menu) => {
+//     const currentMenu = { ...menu }
+//     // 先处理children
+//     if (currentMenu.children?.length) {
+//       currentMenu.children = filterMenus(currentMenu.children, permissions)
+//     }
+//     // 当前节点有权限
+//     const hasCurrentPermission =
+//       !currentMenu.permission || permissions.includes(currentMenu.permission)
+
+//     // 子节点还有内容
+//     const hasChildren = currentMenu.children?.length
+//     if (hasCurrentPermission || hasChildren) {
+//       result.push(currentMenu)
+//     }
+//     return result
+//   }, [])
+// }
 
 // export const generateRoutes = (routes: Menu[]) => {
 //   return routes.map((item) => {

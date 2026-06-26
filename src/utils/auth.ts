@@ -47,17 +47,21 @@ export const removeMenus = () => {
   localStorage.removeItem('menus')
 }
 
-const user = {
-  roles: [
-    {
-      permissions: [{ code: 'user:add' }, { code: 'user:delete' }],
-    },
-    {
-      permissions: [{ code: 'user:add' }, { code: 'user:delete' }],
-    },
-  ],
-}
 export const hasPermission = (code: string): boolean => {
-  const permissions = user.roles.flatMap((role) => role.permissions)
-  return permissions.some((item) => item.code === code)
+  const permissions = getPermissions()
+  return permissions.includes(code)
 }
+// const user = {
+//   roles: [
+//     {
+//       permissions: [{ code: 'user:add' }, { code: 'user:delete' }],
+//     },
+//     {
+//       permissions: [{ code: 'user:add' }, { code: 'user:delete' }],
+//     },
+//   ],
+// }
+// export const hasPermission = (code: string): boolean => {
+//   const permissions = user.roles.flatMap((role) => role.permissions)
+//   return permissions.some((item) => item.code === code)
+// }

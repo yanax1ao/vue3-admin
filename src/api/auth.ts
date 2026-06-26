@@ -7,48 +7,51 @@ export const login = () => {
 export const loadUserInfo = () => {
   return Promise.resolve({
     roles: ['admin'],
-    permissions: ['role:list', 'role:add', 'role:delete'],
+    permissions: [
+      'user:view',
+      'user:add',
+      'user:edit',
+      // 'user:delete',
+      // 'role:view',
+      // 'role:add',
+      // 'role:edit',
+      // 'role:delete',
+    ],
     userInfo: {
-      name: 'nana',
+      id: 1,
+      username: 'admin',
+      nickname: '管理员',
     },
-    // menus: [
-    //   {
-    //     path: '/user',
-    //     name: 'User',
-    //     component: 'user/index',
-    //     permission: 'user:list',
-    //   },
-
-    //   {
-    //     path: '/role',
-    //     name: 'Role',
-    //     component: 'role/index',
-    //     permission: 'role:list',
-    //   },
-    // ],
     menus: [
       {
         id: 1,
         name: '首页',
-        path: '/home',
+        path: '/dashboard',
         component: 'Layout',
+        icon: 'House',
       },
+
       {
         id: 2,
         name: '系统管理',
         path: '/system',
+        component: 'Layout',
+        icon: 'Setting',
         children: [
           {
             id: 3,
             name: '用户管理',
             path: '/system/user',
             component: 'system/user/index',
+            permission: 'user:view',
           },
+
           {
             id: 4,
             name: '角色管理',
             path: '/system/role',
             component: 'system/role/index',
+            permission: 'role:view',
           },
         ],
       },
