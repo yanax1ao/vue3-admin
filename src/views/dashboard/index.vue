@@ -4,8 +4,8 @@
 
 <script setup>
 // import router from '@/router'
-// import { userUserStore } from '@/stores/user'
-// const userStore = userUserStore()
+// import { useUserStore } from '@/stores/user'
+// const userStore = useUserStore()
 // const permission = userStore.permissions
 
 // const menu = [

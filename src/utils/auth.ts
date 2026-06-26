@@ -3,7 +3,7 @@ export const setToken = (token: string) => {
 }
 
 export const setRoles = (roles: string) => {
-  localStorage.setItem('token', roles)
+  localStorage.setItem('roles', roles)
 }
 
 export const setPermissions = (permission: string) => {
@@ -47,9 +47,16 @@ export const removeMenus = () => {
   localStorage.removeItem('menus')
 }
 
-export const hasPermission = (code: string): boolean => {
+export const hasPermission = (code: string | string[]): boolean => {
   const permissions = getPermissions()
-  return permissions.includes(code)
+  const roles = getRoles()
+  console.log('roles', roles)
+  if (roles.includes('admin')) return true
+  if (Array.isArray(code)) {
+    return code.some((item) => permissions.includes(item))
+  } else {
+    return permissions.includes(code)
+  }
 }
 // const user = {
 //   roles: [

@@ -2,17 +2,17 @@ import router from '@/router'
 import type { Menu } from '@/types/user'
 import type { RouteRecordRaw } from 'vue-router'
 import Layout from '@/views/layout/index.vue'
+import { hasPermission } from './auth'
 
 const modules = import.meta.glob('../views/**/*.vue')
 
-export const filterMenus = (menus: Menu[], permissions: string[]): Menu[] => {
+export const filterMenus = (menus: Menu[]): Menu[] => {
   return menus.reduce<Menu[]>((result, menu): Menu[] => {
     const currentMenu = { ...menu }
     if (currentMenu.children?.length) {
-      currentMenu.children = filterMenus(currentMenu.children, permissions)
+      currentMenu.children = filterMenus(currentMenu.children)
     }
-    const hasCurrentPermission =
-      !currentMenu.permission || permissions.includes(currentMenu.permission)
+    const hasCurrentPermission = !currentMenu.permission || hasPermission(currentMenu.permission)
     const hasChildren = currentMenu.children?.length
     if (hasCurrentPermission || hasChildren) {
       result.push(currentMenu)

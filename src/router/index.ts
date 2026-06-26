@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { userUserStore } from '@/stores/user'
+import { useUserStore } from '@/stores/user'
 import type { RouteRecordRaw } from 'vue-router'
 import NotFound from '@/views/error/404.vue'
 
@@ -30,7 +30,7 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to) => {
-  const userStore = userUserStore()
+  const userStore = useUserStore()
   if (to.path === '/login') {
     return true
   }

@@ -30,7 +30,7 @@ const initState: UserStatus = {
   hasRoutes: false,
 }
 
-export const userUserStore = defineStore('user', {
+export const useUserStore = defineStore('user', {
   state: (): UserStatus => ({
     permissions: getPermissions() || [],
     roles: getRoles() || [],
@@ -55,8 +55,8 @@ export const userUserStore = defineStore('user', {
       setUserInfo(JSON.stringify(res.userInfo))
       setPermissions(JSON.stringify(res.permissions))
       setRoles(JSON.stringify(res.roles))
-      const accessMenus = filterMenus(res.menus, res.permissions)
-      console.log('menus', accessMenus)
+      const accessMenus = filterMenus(res.menus)
+      console.log('getRoles()', getRoles(), this.roles, res.roles)
 
       const accessRoutes = generateRoutes(accessMenus)
       accessRoutes.forEach((route) => router.addRoute(route))

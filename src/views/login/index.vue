@@ -19,11 +19,11 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import { userUserStore } from '@/stores/user'
+import { useUserStore } from '@/stores/user'
 import { storeToRefs } from 'pinia'
 import { useRouter } from 'vue-router'
 
-const userStore = userUserStore()
+const userStore = useUserStore()
 const router = useRouter()
 // state/getters 必须用 storeToRefs
 const { userInfo, token } = storeToRefs(userStore)

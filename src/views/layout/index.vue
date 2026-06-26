@@ -13,7 +13,7 @@
 
 <script setup lang="ts">
 import SidebarMenu from './components/Sidebar.vue'
-import { userUserStore } from '@/stores/user.ts'
+import { useUserStore } from '@/stores/user.ts'
 import { useRoute } from 'vue-router'
 import { useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
@@ -23,8 +23,8 @@ import { filterMenus } from '@/utils/route'
 const routes = useRoute()
 const router = useRouter()
 
-const { menus, permissions, logout } = userUserStore()
-const accessMenus = filterMenus(menus, permissions)
+const { menus, permissions, logout } = useUserStore()
+const accessMenus = filterMenus(menus)
 const handleLogout = () => {
   logout()
   router.push('/login')
