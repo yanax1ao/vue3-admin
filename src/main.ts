@@ -3,7 +3,7 @@ import { createPinia } from 'pinia'
 import { filterMenus, generateRoutes } from '@/utils/route'
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
-import { permission } from '@/directives/permission.ts'
+import { setupDirective } from '@/directives/index.ts'
 
 const menus = JSON.parse(localStorage.getItem('menus') || '{}')
 const permissions = JSON.parse(localStorage.getItem('permission') || '{}')
@@ -21,5 +21,5 @@ const app = createApp(App)
 app.use(ElementPlus)
 app.use(createPinia())
 app.use(router)
-app.directive('permission', permission)
+setupDirective(app)
 app.mount('#app')

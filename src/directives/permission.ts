@@ -3,7 +3,7 @@ import { hasPermission as hasPms } from '@/utils/auth'
 
 export const permission: Directive = {
   mounted(el, binding: DirectiveBinding<string | string[]>) {
-    const hasPermission = hasPms(binding.value)
+    const hasPermission = hasPms(binding.value, binding.modifiers?.and)
     if (!hasPermission) {
       el.remove()
     }

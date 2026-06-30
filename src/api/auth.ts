@@ -6,12 +6,12 @@ export const login = () => {
 
 export const loadUserInfo = () => {
   return Promise.resolve({
-    roles: ['admin'],
+    roles: ['user'],
     permissions: [
       'user:view',
       // 'user:add',
       'user:edit',
-      // 'user:delete',
+      'user:delete',
       // 'role:view',
       // 'role:add',
       // 'role:edit',
