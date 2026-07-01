@@ -33,6 +33,7 @@ export const generateRoutes = (menus: Menu[]) => {
     route.name = item.name
     route.meta = {
       title: item.name,
+      breadcrumb: item.breadcrumb,
     }
     if (!item.component) return
     if (item.component === 'Layout') {

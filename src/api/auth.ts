@@ -12,8 +12,8 @@ export const loadUserInfo = () => {
       // 'user:add',
       'user:edit',
       'user:delete',
-      // 'role:view',
-      // 'role:add',
+      'role:view',
+      'role:add',
       // 'role:edit',
       // 'role:delete',
     ],
@@ -58,3 +58,55 @@ export const loadUserInfo = () => {
     ],
   })
 }
+
+// menus: [
+//   {
+//     id: 1,
+//     path: '/',
+//     component: 'Layout',
+//     redirect: '/home',
+//     children: [
+//       {
+//         id: 2,
+//         path: 'home',
+//         name: '首页',
+//         component: 'dashboard/index',
+//         meta: {
+//           title: '首页',
+//           icon: 'House',
+//         },
+//       },
+//       {
+//         id: 3,
+//         path: 'system',
+//         name: '系统管理',
+//         meta: {
+//           title: '系统管理',
+//           icon: 'Setting',
+//         },
+//         children: [
+//           {
+//             id: 4,
+//             path: 'user',
+//             name: '用户管理',
+//             component: 'system/user/index',
+//             meta: {
+//               title: '用户管理',
+//               permission: 'user:view',
+//             },
+//           },
+//           {
+//             id: 5,
+//             path: 'role',
+//             name: '角色管理',
+//             component: 'system/role/index',
+//             meta: {
+//               title: '角色管理',
+//               permission: 'role:view',
+//             },
+//           },
+//         ],
+//       },
+//     ],
+//   },
+// ]

@@ -41,4 +41,5 @@ export interface Menu {
   icon?: string
   permission?: string
   children?: Menu[]
+  breadcrumb?: boolean
 }
