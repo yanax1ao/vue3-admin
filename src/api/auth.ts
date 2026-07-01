@@ -14,6 +14,8 @@ export const loadUserInfo = () => {
       'user:delete',
       'role:view',
       'role:add',
+      'theme:view',
+      'set:view',
       // 'role:edit',
       // 'role:delete',
     ],
@@ -52,6 +54,31 @@ export const loadUserInfo = () => {
             path: '/system/role',
             component: 'system/role/index',
             permission: 'role:view',
+          },
+        ],
+      },
+
+      {
+        id: 2,
+        name: '更多管理',
+        path: '/more',
+        component: 'Layout',
+        icon: 'Setting',
+        children: [
+          {
+            id: 3,
+            name: '主题管理',
+            path: '/more/theme',
+            component: 'more/theme/index',
+            permission: 'theme:view',
+          },
+
+          {
+            id: 4,
+            name: '配置管理',
+            path: '/more/set',
+            component: 'more/set/index',
+            permission: 'set:view',
           },
         ],
       },

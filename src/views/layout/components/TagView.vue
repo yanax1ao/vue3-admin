@@ -4,13 +4,16 @@
       class="tag-item"
       :class="{ active: isActive(item.path) }"
       @click="handleClick(item)"
-      v-for="(item, index) in tagsList"
+      v-for="(item, index) in store.tagsList"
       :key="item.path"
     >
       {{ item.name }}
       <span :class="{ hide: !item.closable }" class="close" @click.stop="handleClose(item, index)"
         >x</span
       >
+      <span @click.stop="closeLeft(item, index)">x左</span>
+      <span @click.stop="closeRight(item, index)">x右</span>
+      <span @click.stop="closeSelf(item, index)">清空</span>
     </div>
   </div>
 </template>
@@ -19,13 +22,11 @@
 import { useTags } from '@/stores/tag'
 import { useRouter } from 'vue-router'
 import { useRoute } from 'vue-router'
-import { storeToRefs } from 'pinia'
 
 const router = useRouter()
 const route = useRoute()
 const store = useTags()
-const { tagsList } = storeToRefs(store)
-const { removeTag } = store
+const { removeTag, removeLeft, removeRight, removeOther } = store
 
 const handleClick = (tag) => {
   router.push(tag.path)
@@ -35,11 +36,24 @@ const isActive = (path) => {
 }
 const handleClose = (item, index) => {
   const isCurrent = item.path === route.path
-  const nextTag = tagsList[index - 1] || tagsList[index + 1] || tagsList[0]
-
+  const nextTag = store.tagsList[index - 1] || store.tagsList[index + 1] || store.tagsList[0]
   removeTag(item.path)
   if (!isCurrent) return
   router.push(nextTag ? nextTag.path : '/home')
+}
+const closeLeft = (item, index) => {
+  removeLeft(item.path)
+}
+
+const closeRight = (item, index) => {
+  removeRight(item.path)
+}
+
+const closeSelf = (item, index) => {
+  removeOther(item.path)
+  if (!store.tagsList.some((i) => i.path === route.path)) {
+    router.push(item.path)
+  }
 }
 </script>
 
@@ -53,6 +67,9 @@ const handleClose = (item, index) => {
     padding: 6px 12px;
     border: 1px solid #dcdfe6;
     border-radius: 4px;
+    span {
+      margin: 0 5px;
+    }
   }
   .tag-item.active {
     background: #409eff;

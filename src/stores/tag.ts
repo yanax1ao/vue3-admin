@@ -14,9 +14,23 @@ export const useTags = defineStore('tags', {
     removeTag(path: string) {
       const index = this.tagsList.findIndex((item) => item.path === path)
       if (index !== -1) {
-        this.tagsList.splice(index, 1)
+        this.tagsList = this.tagsList.filter((_, i) => i !== index)
       }
-      console.log('store', this.tagsList)
+    },
+    removeLeft(path: string) {
+      const index = this.tagsList.findIndex((item) => item.path === path)
+      if (index !== -1) {
+        this.tagsList = this.tagsList.filter((_, i) => i >= index || !_.closable)
+      }
+    },
+    removeRight(path: string) {
+      const index = this.tagsList.findIndex((item) => item.path === path)
+      if (index !== -1) {
+        this.tagsList = this.tagsList.filter((_, i) => i <= index || !_.closable)
+      }
+    },
+    removeOther(path: string) {
+      this.tagsList = this.tagsList.filter((_, i) => _.path === path || !_.closable)
     },
   },
 })
