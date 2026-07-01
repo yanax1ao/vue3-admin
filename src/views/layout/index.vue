@@ -1,13 +1,14 @@
 <template>
   <div class="wrapper">
     <Header />
+    <TagView />
     <div class="main">
       <div class="left">
         <button @click="handleLogout">退出登录</button>
         <SidebarMenu :menus="accessMenus" />
       </div>
       <div class="right">
-        <div v-if="routes.path === '/home'">你好，欢迎来到后台管理系统</div>
+        <div v-if="route.path === '/home'">你好，欢迎来到后台管理系统</div>
         <AppMain />
       </div>
     </div>
@@ -15,16 +16,18 @@
 </template>
 
 <script setup lang="ts">
+import { watch } from 'vue'
 import SidebarMenu from './components/Sidebar.vue'
 import { useUserStore } from '@/stores/user.ts'
-import { useRoute } from 'vue-router'
-import { useRouter } from 'vue-router'
-import { storeToRefs } from 'pinia'
+import { useRoute, useRouter } from 'vue-router'
 import AppMain from './components/AppMain.vue'
 import { filterMenus } from '@/utils/route'
 import Header from './components/Header.vue'
+import TagView from './components/TagView.vue'
+import { useTags } from '@/stores/tag'
 
-const routes = useRoute()
+const route = useRoute()
+const { addTag } = useTags()
 const router = useRouter()
 
 const { menus, permissions, logout } = useUserStore()
@@ -33,6 +36,19 @@ const handleLogout = () => {
   logout()
   router.push('/login')
 }
+watch(
+  () => route.path,
+  () => {
+    const curTag = {
+      title: route.meta.title as string,
+      name: route.name as string,
+      path: route.path,
+      closable: route.path !== '/home',
+    }
+    addTag(curTag)
+  },
+  { immediate: true },
+)
 </script>
 
 <style scoped>
