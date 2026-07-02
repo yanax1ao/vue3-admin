@@ -46,7 +46,7 @@ export const generateRoutes = (menus: Menu[]) => {
       }
       route.component = component
     }
-    console.log(item.name, item.path, 'component', modules[`../views/${item.component}.vue`])
+    // console.log(item.name, item.path, 'component', modules[`../views/${item.component}.vue`])
     if (item.children?.length) {
       route.children = generateRoutes(item.children)
     }

@@ -8,7 +8,9 @@
         <SidebarMenu :menus="accessMenus" />
       </div>
       <div class="right">
-        <div v-if="route.path === '/home'">你好，欢迎来到后台管理系统</div>
+        <div v-if="route.path === '/home'">
+          <Home />
+        </div>
         <AppMain />
       </div>
     </div>
@@ -24,10 +26,11 @@ import AppMain from './components/AppMain.vue'
 import { filterMenus } from '@/utils/route'
 import Header from './components/Header.vue'
 import TagView from './components/TagView.vue'
+import Home from '@/views/system/home/index.vue'
 import { useTags } from '@/stores/tag'
 
 const route = useRoute()
-const { addTag } = useTags()
+const { addTag, addCache } = useTags()
 const router = useRouter()
 
 const { menus, permissions, logout } = useUserStore()
@@ -37,7 +40,7 @@ const handleLogout = () => {
   router.push('/login')
 }
 watch(
-  () => route.path,
+  () => route.fullPath,
   () => {
     const curTag = {
       title: route.meta.title as string,
@@ -46,6 +49,7 @@ watch(
       closable: route.path !== '/home',
     }
     addTag(curTag)
+    addCache(curTag.name)
   },
   { immediate: true },
 )

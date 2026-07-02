@@ -38,6 +38,7 @@ const handleClose = (item, index) => {
   const isCurrent = item.path === route.path
   const nextTag = store.tagsList[index - 1] || store.tagsList[index + 1] || store.tagsList[0]
   removeTag(item.path)
+  removeCache(item.name)
   if (!isCurrent) return
   router.push(nextTag ? nextTag.path : '/home')
 }

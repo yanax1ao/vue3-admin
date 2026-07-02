@@ -7,6 +7,22 @@
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+import { onMounted, onUnmounted, onActivated, onDeactivated } from 'vue'
+
+onMounted(() => {
+  console.log('角色管理onMounted')
+})
+onUnmounted(() => {
+  console.log('角色管理onUnmounted')
+})
+onActivated(() => {
+  console.log('角色管理onActivated')
+})
+onDeactivated(() => {
+  console.log('角色管理onDeactivated')
+})
+defineOptions({ name: '角色管理' })
+</script>
 
 <style></style>

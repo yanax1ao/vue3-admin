@@ -11,4 +11,5 @@ export interface Tag {
 
 export interface tagsStatus {
   tagsList: Tag[]
+  cacheList: string[]
 }

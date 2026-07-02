@@ -12,6 +12,22 @@
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+import { onMounted, onUnmounted, onActivated, onDeactivated } from 'vue'
+
+onMounted(() => {
+  console.log('用户管理onMounted')
+})
+onUnmounted(() => {
+  console.log('用户管理onUnmounted')
+})
+onActivated(() => {
+  console.log('用户管理onActivated')
+})
+onDeactivated(() => {
+  console.log('用户管理onDeactivated')
+})
+defineOptions({ name: '用户管理' })
+</script>
 
 <style></style>
