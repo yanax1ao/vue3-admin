@@ -7,6 +7,7 @@ export interface Tag {
   params?: Record<string, any>
   icon?: string
   closable?: boolean
+  keepAlive: boolean
 }
 
 export interface tagsStatus {

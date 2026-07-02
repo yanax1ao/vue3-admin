@@ -44,10 +44,12 @@ const handleClose = (item, index) => {
 }
 const closeLeft = (item, index) => {
   removeLeft(item.path)
+  router.push(item.path)
 }
 
 const closeRight = (item, index) => {
   removeRight(item.path)
+  router.push(item.path)
 }
 
 const closeSelf = (item, index) => {

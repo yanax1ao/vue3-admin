@@ -27,22 +27,28 @@ export const useTags = defineStore('tags', {
       const index = this.tagsList.findIndex((item) => item.path === path)
       if (index !== -1) {
         this.tagsList = this.tagsList.filter((_, i) => i >= index || !_.closable)
+        this.rebuildCache()
       }
     },
     removeRight(path: string) {
       const index = this.tagsList.findIndex((item) => item.path === path)
       if (index !== -1) {
         this.tagsList = this.tagsList.filter((_, i) => i <= index || !_.closable)
+        this.rebuildCache()
       }
     },
     removeOther(path: string) {
       this.tagsList = this.tagsList.filter((_, i) => _.path === path || !_.closable)
+      this.rebuildCache()
     },
     removeCache(name: string) {
       const index = this.cacheList?.findIndex((i) => i === name) ?? -1
       if (index > -1) {
         this.cacheList?.splice(index, 1)
       }
+    },
+    rebuildCache() {
+      this.cacheList = this.tagsList.filter((i) => i.keepAlive).map((item) => item.name)
     },
   },
 })

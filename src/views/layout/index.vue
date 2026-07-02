@@ -47,6 +47,7 @@ watch(
       name: route.name as string,
       path: route.path,
       closable: route.path !== '/home',
+      keepAlive: true,
     }
     addTag(curTag)
     addCache(curTag.name)
