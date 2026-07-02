@@ -14,10 +14,19 @@
 
 <script setup>
 import { onMounted, onUnmounted, onActivated, onDeactivated } from 'vue'
-
+import { getUserList } from '@/api/user'
 onMounted(() => {
   console.log('用户管理onMounted')
+  getUser()
 })
+const getUser = async () => {
+  try {
+    const res = await getUserList()
+    console.log(res, 'res')
+  } catch (e) {
+    console.log(e, '====')
+  }
+}
 onUnmounted(() => {
   console.log('用户管理onUnmounted')
 })

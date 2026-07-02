@@ -21,7 +21,7 @@ interface Permission {
   type: 'menu' | 'api' | 'button'
 }
 
-interface User {
+export interface User {
   id: number
   username: string
   roles: Role[]
