@@ -49,21 +49,11 @@ service.interceptors.response.use(
   },
 )
 
-/**
- * 泛型请求方法：传入 T 指定 data 的类型，返回 Promise<ApiResponse<T>>
- *
- * @example
- * // 定义 API 时
- * export const getUserList = () => request.get<User[]>('/user/list')
- *
- * // 使用时 res.data 自动推断为 User[]
- * const res = await getUserList()
- */
 const request = {
-  get<T = any>(url: string, config?: Record<string, any>): Promise<ApiResponse<T>> {
+  get<T>(url: string, config?: Record<string, any>) {
     return service.get(url, config) as Promise<ApiResponse<T>>
   },
-  post<T = any>(url: string, data?: any, config?: Record<string, any>): Promise<ApiResponse<T>> {
+  post<T>(url: string, data?: any, config?: Record<string, any>) {
     return service.post(url, data, config) as Promise<ApiResponse<T>>
   },
 }

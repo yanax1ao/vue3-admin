@@ -1,6 +1,6 @@
 import request from '@/utils/request'
-import type { User } from '@/types/user'
+import type { User, PageResult } from '@/types/api'
 
 export const getUserList = () => {
-  return request.get<User[]>('/user/list')
+  return request.get<PageResult<User>>('/user/list')
 }
