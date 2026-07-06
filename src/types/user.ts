@@ -43,3 +43,19 @@ export interface Menu {
   children?: Menu[]
   breadcrumb?: boolean
 }
+
+export interface UserItem {
+  id: number
+  name: string
+  nickname: string
+  phone: string
+  status: 0 | 1
+  createTime: string
+}
+export interface UserQuery {
+  page: number
+  pagesize: number
+  username?: string
+  phone?: string
+  status?: number
+}
