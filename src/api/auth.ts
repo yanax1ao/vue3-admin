@@ -16,7 +16,7 @@ export const loadUserInfo = () => {
       'role:add',
       'theme:view',
       'set:view',
-      // 'role:edit',
+      'role:edit',
       // 'role:delete',
     ],
     userInfo: {
