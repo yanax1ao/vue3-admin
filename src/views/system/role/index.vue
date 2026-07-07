@@ -42,7 +42,7 @@
 <script setup lang="ts">
 import { onMounted, computed, onUnmounted, onActivated, onDeactivated, reactive } from 'vue'
 import { useForm } from '@/composables/useForm'
-import type { Role, RoleQuery } from '@/types/role'
+import type { Role, RoleQuery, Detail } from '@/types/role'
 import { getRoleList, getRoleDetail } from '@/api/role'
 
 import { useTable } from '@/composables/useTable'
@@ -67,9 +67,10 @@ const { loading, tableData, total, getList } = useTable({
   api: getRoleList,
   query: query,
 })
-const { visible, mode, currentRow, openAdd, openEdit, close } = useForm<Role>({
-  detailApi: (row) => {
-    return getRoleDetail(row.id)
+const { visible, mode, currentRow, openAdd, openEdit, close } = useForm<Role, Detail>({
+  detailApi: async (row) => {
+    const res = await getRoleDetail(row.id)
+    return res.data
   },
   onDetail(detail) {
     Object.assign(form, detail)

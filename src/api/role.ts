@@ -1,5 +1,5 @@
 import request from '@/utils/request'
-import type { Role, RoleQuery } from '@/types/role'
+import type { Role, RoleQuery, Detail } from '@/types/role'
 import type { ApiResponse, PageResult } from '@/types/api'
 
 export const getRoleList = (query: RoleQuery): Promise<ApiResponse<PageResult<Role>>> => {
@@ -26,7 +26,7 @@ export const getRoleList = (query: RoleQuery): Promise<ApiResponse<PageResult<Ro
   })
 }
 
-export const getRoleDetail = (id: number): Promise<ApiResponse<Role>> => {
+export const getRoleDetail = (id: number): Promise<ApiResponse<Detail>> => {
   console.log('id', id)
   return Promise.resolve({
     code: 200,
@@ -36,6 +36,8 @@ export const getRoleDetail = (id: number): Promise<ApiResponse<Role>> => {
       name: 'nananana',
       tel: '13024242212',
       age: 20,
+      address: '重庆',
+      gender: 'girl',
     },
   })
 }
