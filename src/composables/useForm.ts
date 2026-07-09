@@ -1,12 +1,18 @@
 import { ref } from 'vue'
 
-interface UseFormOption<Row, Detail> {
+interface UseFormOption<Row, Detail, Message> {
   detailApi?: (row: Row) => Promise<Detail>
   onDetail?: (detail: Detail) => void
+  editApi?: (row: Row) => Promise<Message>
+  addApi?: (row: Row) => Promise<Message>
+  onSuccess?: (res?: Message) => void
+  onFialed?: (error?: unknown) => void
 }
 
-export const useForm = <Row, Detail = Row>(option: UseFormOption<Row, Detail>) => {
-  const { detailApi, onDetail } = option
+export const useForm = <Row, Message, Detail = Row>(
+  option: UseFormOption<Row, Detail, Message>,
+) => {
+  const { detailApi, onDetail, editApi, addApi, onSuccess, onFialed } = option
   const visible = ref(false)
   const mode = ref<'add' | 'edit'>('add')
   const currentRow = ref<Row>()
@@ -30,6 +36,21 @@ export const useForm = <Row, Detail = Row>(option: UseFormOption<Row, Detail>) =
       loading.value = false
     }
   }
+  const confirm = async (row: Row) => {
+    try {
+      let res
+      if (mode.value === 'add') {
+        if (!addApi) return
+        res = await addApi(row)
+      } else {
+        if (!editApi) return
+        res = await editApi(row)
+      }
+      onSuccess?.(res)
+    } catch (err) {
+      onFialed?.(err)
+    }
+  }
   const close = () => {
     visible.value = false
   }
@@ -40,5 +61,6 @@ export const useForm = <Row, Detail = Row>(option: UseFormOption<Row, Detail>) =
     openAdd,
     openEdit,
     close,
+    confirm,
   }
 }

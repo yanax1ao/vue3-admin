@@ -18,6 +18,7 @@
         </template>
       </el-table-column>
     </el-table>
+    <button @click="handleChangePage">{{ query.page }}</button>
     <el-dialog v-model="visible" :title="mode === 'add' ? '新增信息' : '编辑信息'" width="500">
       <el-form :model="form">
         <el-form-item label="姓名">
@@ -32,7 +33,7 @@
       <template #footer>
         <div class="dialog-footer">
           <el-button @click="close">Cancel</el-button>
-          <el-button type="primary" @click="close"> Confirm </el-button>
+          <el-button type="primary" @click="handleConfirm"> Confirm </el-button>
         </div>
       </template>
     </el-dialog>
@@ -42,8 +43,8 @@
 <script setup lang="ts">
 import { onMounted, computed, onUnmounted, onActivated, onDeactivated, reactive } from 'vue'
 import { useForm } from '@/composables/useForm'
-import type { Role, RoleQuery, Detail } from '@/types/role'
-import { getRoleList, getRoleDetail } from '@/api/role'
+import type { Role, RoleQuery, Detail, Message } from '@/types/role'
+import { getRoleList, getRoleDetail, editRoleDetail, addRoleDetail } from '@/api/role'
 
 import { useTable } from '@/composables/useTable'
 
@@ -63,17 +64,44 @@ const query = reactive<RoleQuery>({
   page: 1,
   pagesize: 10,
 })
+
 const { loading, tableData, total, getList } = useTable({
   api: getRoleList,
   query: query,
 })
-const { visible, mode, currentRow, openAdd, openEdit, close } = useForm<Role, Detail>({
+const handleChangePage = async () => {
+  query.page++
+  await getList()
+}
+const { visible, mode, currentRow, openAdd, openEdit, close, confirm } = useForm<
+  Role,
+  Message,
+  Detail
+>({
   detailApi: async (row) => {
     const res = await getRoleDetail(row.id)
     return res.data
   },
   onDetail(detail) {
     Object.assign(form, detail)
+  },
+  editApi: async (row) => {
+    const res = await editRoleDetail(row)
+    if (res.data.code !== 200) throw res.data
+    return res.data
+  },
+  addApi: async (row) => {
+    const res = await addRoleDetail(row)
+    if (res.data.code !== 200) throw res.data
+    return res.data
+  },
+  onSuccess: (res) => {
+    console.log(res?.message)
+    close()
+    getList()
+  },
+  onFialed: (err) => {
+    console.log('失败', err)
   },
 })
 const handleEdit = (row: Role) => {
@@ -82,6 +110,9 @@ const handleEdit = (row: Role) => {
 const handleAdd = () => {
   openAdd()
   Object.assign(form, initForm)
+}
+const handleConfirm = () => {
+  confirm(form)
 }
 
 onMounted(() => {

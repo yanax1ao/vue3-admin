@@ -21,3 +21,8 @@ export interface RoleQuery {
   name?: string
   tel?: string
 }
+
+export interface Message {
+  code: number
+  message: string
+}
