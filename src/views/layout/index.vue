@@ -34,7 +34,7 @@ const { addTag, addCache } = useTags()
 const router = useRouter()
 
 const { menus, permissions, logout } = useUserStore()
-const accessMenus = filterMenus(menus)
+const accessMenus = filterMenus(menus, permissions)
 const handleLogout = () => {
   logout()
   router.push('/login')

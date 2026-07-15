@@ -48,8 +48,6 @@ const goHome = () => {
 }
 onMounted(() => {
   console.log('989898', userInfo, token)
-
-  // console.log('....', localStorage.getItem('permission'))
 })
 </script>
 

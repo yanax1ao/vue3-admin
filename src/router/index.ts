@@ -17,11 +17,6 @@ let routes: RouteRecordRaw[] = [
     path: '/404',
     component: NotFound,
   },
-
-  {
-    path: '/:pathMatch(.*)*',
-    redirect: '/404',
-  },
 ]
 
 const router = createRouter({
@@ -39,10 +34,7 @@ router.beforeEach(async (to) => {
   }
   if (!userStore.hasRoutes) {
     await userStore.loadUserInfo()
-    return {
-      ...to,
-      replace: true,
-    }
+    return to.fullPath
   }
   return true
 })
